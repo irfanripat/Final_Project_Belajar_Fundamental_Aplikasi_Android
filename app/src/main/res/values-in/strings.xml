@@ -18,4 +18,10 @@
     <string name="refresh">Segarkan</string>
     <string name="error_get_data">Gagal Mendapatkan Data</string>
     <string name="no_result">Tidak Ada Hasil</string>
+    <string name="button_favorite">Tombol Favorit</string>
+    <string name="add_to_favorite">Ditambahkan kedalam favorit</string>
+    <string name="remove_from_favorite">Dihapus dari favorite</string>
+    <string name="favorite">Favorit</string>
+    <string name="language">Bahasa</string>
+    <string name="type_something">Silahkan ketik sesuatu..</string>
 </resources>

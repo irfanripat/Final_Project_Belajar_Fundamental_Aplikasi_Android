@@ -39,8 +39,12 @@ class MainActivity : AppCompatActivity() {
 
         binding.inputUsername.setOnEditorActionListener { _, p1, _ ->
             if (p1 == EditorInfo.IME_ACTION_DONE) {
-                showShimmer()
-                mainViewModel.setSearchQuery(binding.inputUsername.text.toString())
+                if (binding.inputUsername.text.isNullOrEmpty()) {
+                    binding.inputUsername.error = resources.getString(R.string.type_something)
+                } else {
+                    showShimmer()
+                    mainViewModel.setSearchQuery(binding.inputUsername.text.toString())
+                }
             }
             true
         }

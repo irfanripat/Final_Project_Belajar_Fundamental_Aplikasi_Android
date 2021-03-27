@@ -3,8 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/ic_favorite_filled"
+        app:showAsAction="ifRoom"
+        android:title="@string/favorite" />
+
+    <item
         android:id="@+id/language_setting"
         android:icon="@drawable/ic_language"
         app:showAsAction="always"
-        android:title="Language" />
+        android:title="@string/language" />
 </menu>

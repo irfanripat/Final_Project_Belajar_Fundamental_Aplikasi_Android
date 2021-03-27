@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
@@ -24,6 +25,7 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var tabLayout: TabLayout
     lateinit var viewPager: ViewPager
+    private var isFavorite: Boolean = false
 
     companion object {
         const val EXTRA_GITHUB_USER = "github"
@@ -84,6 +86,14 @@ class DetailActivity : AppCompatActivity() {
 
         binding.layoutError.btnRefresh.setOnClickListener {
             getData(username)
+        }
+
+        binding.btnFavorite.setOnClickListener {
+            isFavorite = !isFavorite
+            when(isFavorite) {
+                true -> addToFavorite()
+                else -> removeFromFavorite()
+            }
         }
 
     }
@@ -170,4 +180,15 @@ class DetailActivity : AppCompatActivity() {
             btnVisit.show()
         }
     }
+
+    private fun addToFavorite() {
+        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_filled)
+        Toast.makeText(this, resources.getString(R.string.add_to_favorite), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun removeFromFavorite() {
+        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
+        Toast.makeText(this, resources.getString(R.string.remove_from_favorite), Toast.LENGTH_SHORT).show()
+    }
+
 }

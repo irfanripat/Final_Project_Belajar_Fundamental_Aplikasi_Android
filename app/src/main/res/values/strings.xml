@@ -17,4 +17,10 @@
     <string name="refresh">Refresh</string>
     <string name="error_get_data">Error Get Data</string>
     <string name="no_result">No Result</string>
+    <string name="button_favorite">Button Favorite</string>
+    <string name="add_to_favorite">Added to favorite</string>
+    <string name="remove_from_favorite">Removed from favorite</string>
+    <string name="favorite">Favorite</string>
+    <string name="language">Language</string>
+    <string name="type_something">Please type something..</string>
 </resources>
