@@ -1,21 +1,18 @@
 package com.irfan.githubuser.activity.main
 
-import android.content.BroadcastReceiver
-import android.content.Context
+
 import android.content.Intent
-import android.content.IntentFilter
-import android.content.res.Configuration
 import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.irfan.githubuser.R
 import com.irfan.githubuser.activity.detail.DetailActivity
+import com.irfan.githubuser.activity.favorite.FavoriteActivity
 import com.irfan.githubuser.activity.main.adapter.GithubAdapter
 import com.irfan.githubuser.databinding.ActivityMainBinding
 import com.irfan.githubuser.model.DetailUser
@@ -129,8 +126,22 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
                 startActivity(intent)
             }
+            R.id.favorite -> {
+                moveToFavoriteActivity()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if (menu?.findItem(R.id.favorite) != null) {
+            menu.findItem(R.id.favorite).isVisible = true
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    private fun moveToFavoriteActivity() {
+        startActivity(Intent(this@MainActivity, FavoriteActivity::class.java))
     }
 
     override fun onResume() {

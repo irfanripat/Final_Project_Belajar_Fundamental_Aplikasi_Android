@@ -15,6 +15,8 @@
         android:theme="@style/Theme.GithubUser"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".activity.favorite.FavoriteActivity"
+            android:theme="@style/Theme.MainActivity"/>
         <activity
             android:name=".activity.detail.DetailActivity"
             android:theme="@style/Theme.DetailActivity" />

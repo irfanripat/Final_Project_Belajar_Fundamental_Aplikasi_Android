@@ -24,4 +24,5 @@
     <string name="favorite">Favorite</string>
     <string name="language">Language</string>
     <string name="type_something">Please type something..</string>
+    <string name="favorite_activity_title">Favorite User</string>
 </resources>
