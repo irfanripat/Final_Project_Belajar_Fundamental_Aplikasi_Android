@@ -1,36 +1,46 @@
 package com.irfan.githubuser.model
 
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import org.jetbrains.annotations.NonNls
+
+@Entity(tableName = "users")
 data class DetailUser(
+
+    @ColumnInfo(name = "avatar_url")
     val avatar_url: String? = "",
-    val bio: String? = "",
-    val blog: String? = "",
+
+    @ColumnInfo(name = "company")
     val company: String? = "",
-    val created_at: String? = "",
+
+    @ColumnInfo(name = "email")
     val email: String? = "",
-    val events_url: String? = "",
+
+    @ColumnInfo(name = "followers")
     val followers: Int? = -1,
-    val followers_url: String? = "",
+
+    @ColumnInfo(name = "following")
     val following: Int? = -1,
-    val following_url: String? = "",
-    val gists_url: String? = "",
-    val gravatar_id: String? = "",
-    val hireable: Boolean?,
+
+    @ColumnInfo(name = "html_url")
     val html_url: String? = "",
+
+    @ColumnInfo(name = "id")
     val id: Int? = -1,
+
+    @ColumnInfo(name = "location")
     val location: String? = "",
-    val login: String? = "",
+
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "login")
+    @NonNull
+    val login: String = "",
+
+    @ColumnInfo(name = "name")
     val name: String? = "",
-    val node_id: String? = "",
-    val organizations_url: String? = "",
-    val public_gists: Int? = -1,
+
+    @ColumnInfo(name = "public_repos")
     val public_repos: Int? = -1,
-    val received_events_url: String? = "",
-    val repos_url: String? = "",
-    val site_admin: Boolean? = null,
-    val starred_url: String? = "",
-    val subscriptions_url: String? = "",
-    val twitter_username: Any? = "",
-    val type: String? = "",
-    val updated_at: String? = "",
-    val url: String? = ""
 )

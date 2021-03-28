@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.getSearchResult().observe(this, {
             val githubAdapter = GithubAdapter(it) { user ->
                 user as DetailUser
-                showDetailUser(user.login!!)
+                showDetailUser(user.login)
             }
 
             hideShimmer()

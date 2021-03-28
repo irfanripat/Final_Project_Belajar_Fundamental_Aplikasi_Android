@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
@@ -16,16 +16,26 @@ import com.google.android.material.tabs.TabLayout
 import com.irfan.githubuser.R
 import com.irfan.githubuser.activity.detail.adapter.FragmentAdapter
 import com.irfan.githubuser.databinding.ActivityDetailBinding
+import com.irfan.githubuser.db.UserDao
+import com.irfan.githubuser.db.UserDatabase
+import com.irfan.githubuser.model.DetailUser
 import com.irfan.githubuser.util.Commons.hide
+import com.irfan.githubuser.util.Commons.hideViews
 import com.irfan.githubuser.util.Commons.show
+import com.irfan.githubuser.util.Commons.showToast
+import com.irfan.githubuser.util.Commons.showViews
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivityDetailBinding
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var tabLayout: TabLayout
     lateinit var viewPager: ViewPager
     private var isFavorite: Boolean = false
+    private lateinit var dao : UserDao
+    private lateinit var database : UserDatabase
+    private var user : DetailUser? = null
+    private var username = ""
 
     companion object {
         const val EXTRA_GITHUB_USER = "github"
@@ -36,45 +46,47 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         binding.layoutError.textError.setTextColor(Color.WHITE)
         setContentView(binding.root)
-
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
+        username = intent.getStringExtra(EXTRA_GITHUB_USER)?:""
 
-        val username = intent.getStringExtra(EXTRA_GITHUB_USER)
+        initDatabaseInstance()
+        checkIfUserHasAddedToFavorite(username)
+        setUpActionBar(username)
+        setUpTabLayout()
+        getData(username)
+        observeIfGetDataHasFinished()
 
-        setSupportActionBar(binding.toolbar)
-        binding.toolbar.apply {
-            setTitleTextColor(Color.WHITE)
-        }
+        binding.layoutError.btnRefresh.setOnClickListener(this)
+        binding.btnFavorite.setOnClickListener(this)
+    }
 
-        supportActionBar?.apply {
-            setDisplayHomeAsUpEnabled(true)
-            title = username
-        }
+    private fun getData(username: String) {
+        showShimmer()
+        detailViewModel.getDetailUser(username).observe(this, { user ->
+            this.user = user
 
-        tabLayout = binding.content.tabLayout
-        viewPager = binding.content.viewPager
+            hideShimmer()
+            if (user != null) {
+                binding.apply {
+                    tvName.text = user.name
+                    tvLocation.text = user.location ?: resources.getString(R.string.unknown)
+                    tvCompany.text = user.company ?: resources.getString(R.string.unknown)
+                    tvFollowers.text = user.followers.toString()
+                    tvFollowing.text = user.following.toString()
+                    tvRepository.text = user.public_repos.toString()
+                    Glide.with(this@DetailActivity)
+                        .load(user.avatar_url)
+                        .into(imgAvatar)
+                }
 
-        tabLayout.apply {
-            addTab(this.newTab().setText(resources.getString(R.string.followers)))
-            addTab(this.newTab().setText(resources.getString(R.string.following)))
-            tabGravity = TabLayout.GRAVITY_FILL
-        }
-
-        val adapter = FragmentAdapter(supportFragmentManager, tabLayout.tabCount)
-        viewPager.apply {
-            this.adapter = adapter
-            addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-        }
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                viewPager.currentItem = tab!!.position
+                binding.btnVisit.setOnClickListener{
+                    visitGithubAccount(user.html_url?:"")
+                }
             }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
+    }
 
-        getData(username!!)
-
+    private fun observeIfGetDataHasFinished() {
         detailViewModel.isSuccess.observe(this, {isSuccess->
             when(isSuccess) {
                 0 -> {
@@ -83,43 +95,72 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         })
-
-        binding.layoutError.btnRefresh.setOnClickListener {
-            getData(username)
-        }
-
-        binding.btnFavorite.setOnClickListener {
-            isFavorite = !isFavorite
-            when(isFavorite) {
-                true -> addToFavorite()
-                else -> removeFromFavorite()
-            }
-        }
-
     }
 
-    private fun getData(username: String) {
-        showShimmer()
-        detailViewModel.getDetailUser(username).observe(this, {user->
-            hideShimmer()
-            if (user!=null) {
-                binding.apply {
-                    tvName.text = user.name
-                    tvLocation.text = user.location?:resources.getString(R.string.unknown)
-                    tvCompany.text = user.company?:resources.getString(R.string.unknown)
-                    tvFollowers.text = user.followers.toString()
-                    tvFollowing.text = user.following.toString()
-                    tvRepository.text = user.public_repos.toString()
-                }
-                Glide.with(this)
-                    .load(user.avatar_url)
-                    .into(binding.imgAvatar)
+    private fun showShimmer() {
+        binding.layoutError.root.hide()
+        binding.shimmerLayout.apply {
+            startShimmer()
+            show()
+        }
 
-                binding.btnVisit.setOnClickListener {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(user.html_url)))
-                }
-            }
-        })
+        hideViews(
+            binding.tvName,
+            binding.tvCompany,
+            binding.tvLocation,
+            binding.tvFollowers,
+            binding.tvFollowing,
+            binding.tvRepository,
+            binding.labelFollowers,
+            binding.labelFollowing,
+            binding.labelRepository,
+            binding.btnVisit
+        )
+    }
+
+    private fun hideShimmer() {
+        binding.shimmerLayout.apply {
+            hide()
+            stopShimmer()
+        }
+
+        showViews(
+            binding.tvName,
+            binding.tvCompany,
+            binding.tvLocation,
+            binding.tvFollowers,
+            binding.tvFollowing,
+            binding.tvRepository,
+            binding.labelFollowers,
+            binding.labelFollowing,
+            binding.labelRepository,
+            binding.btnVisit
+        )
+    }
+
+    private fun addToFavorite(user: DetailUser) {
+        dao.insert(user)
+        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_filled)
+        this.showToast(resources.getString(R.string.add_to_favorite))
+    }
+
+    private fun removeFromFavorite(user: DetailUser) {
+        dao.delete(user)
+        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
+        this.showToast(resources.getString(R.string.remove_from_favorite))
+    }
+
+    private fun checkIfUserHasAddedToFavorite(username: String) {
+        isFavorite = (dao.getUserByUsername(username) != null)
+        when(isFavorite) {
+            true -> binding.btnFavorite.setImageResource(R.drawable.ic_favorite_filled)
+            false -> binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
+        }
+    }
+
+    private fun initDatabaseInstance() {
+        database = UserDatabase.getInstance(applicationContext)
+        dao = database.userDao()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -140,55 +181,63 @@ class DetailActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showShimmer() {
-        binding.layoutError.root.hide()
-        binding.shimmerLayout.apply {
-            startShimmer()
-            show()
+    private fun setUpActionBar(username: String) {
+        setSupportActionBar(binding.toolbar)
+        binding.toolbar.apply {
+            setTitleTextColor(Color.WHITE)
         }
 
-        binding.apply {
-            tvName.hide()
-            tvCompany.hide()
-            tvLocation.hide()
-            tvFollowers.hide()
-            tvFollowing.hide()
-            tvRepository.hide()
-            labelFollowers.hide()
-            labelFollowing.hide()
-            labelRepository.hide()
-            btnVisit.hide()
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = username
         }
     }
 
-    private fun hideShimmer() {
-        binding.shimmerLayout.apply {
-            hide()
-            stopShimmer()
+    private fun setUpTabLayout() {
+        val adapter = FragmentAdapter(supportFragmentManager, tabLayout.tabCount)
+        tabLayout = binding.content.tabLayout
+        viewPager = binding.content.viewPager
+
+        tabLayout.apply {
+            addTab(this.newTab().setText(resources.getString(R.string.followers)))
+            addTab(this.newTab().setText(resources.getString(R.string.following)))
+            tabGravity = TabLayout.GRAVITY_FILL
         }
 
-        binding.apply {
-            tvName.show()
-            tvCompany.show()
-            tvLocation.show()
-            tvFollowers.show()
-            tvFollowing.show()
-            tvRepository.show()
-            labelFollowers.show()
-            labelFollowing.show()
-            labelRepository.show()
-            btnVisit.show()
+        viewPager.apply {
+            this.adapter = adapter
+            addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+        }
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                viewPager.currentItem = tab!!.position
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
+    }
+
+    private fun setToFavorite() {
+        if (user != null) {
+            isFavorite = !isFavorite
+            when(isFavorite) {
+                true -> addToFavorite(user?: DetailUser())
+                else -> removeFromFavorite(user?: DetailUser())
+            }
+        } else {
+            this.showToast("Belum ada data bosku")
         }
     }
 
-    private fun addToFavorite() {
-        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_filled)
-        Toast.makeText(this, resources.getString(R.string.add_to_favorite), Toast.LENGTH_SHORT).show()
+    override fun onClick(view: View?) {
+        when(view) {
+            binding.layoutError.btnRefresh -> getData(username)
+            binding.btnFavorite -> setToFavorite()
+        }
     }
 
-    private fun removeFromFavorite() {
-        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
-        Toast.makeText(this, resources.getString(R.string.remove_from_favorite), Toast.LENGTH_SHORT).show()
+    private fun visitGithubAccount(url: String) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
     }
-
 }

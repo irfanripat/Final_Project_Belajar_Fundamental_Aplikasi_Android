@@ -17,4 +17,20 @@ object Commons {
         visibility = View.VISIBLE
     }
 
+    fun showViews(vararg views: View) {
+        views.forEach {
+            it.show()
+        }
+    }
+
+    fun hideViews(vararg views: View) {
+        views.forEach {
+            it.hide()
+        }
+    }
+
+    fun Context.showToast(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
 }
