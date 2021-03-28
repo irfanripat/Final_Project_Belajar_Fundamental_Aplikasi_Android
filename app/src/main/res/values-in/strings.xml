@@ -25,4 +25,5 @@
     <string name="language">Bahasa</string>
     <string name="type_something">Silahkan ketik sesuatu..</string>
     <string name="favorite_activity_title">User Favorit</string>
+    <string name="no_data">Belum Ada Favorit</string>
 </resources>

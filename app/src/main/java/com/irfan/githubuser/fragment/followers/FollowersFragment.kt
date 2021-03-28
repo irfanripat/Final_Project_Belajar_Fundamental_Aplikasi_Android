@@ -10,13 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.irfan.githubuser.activity.detail.DetailActivity
 import com.irfan.githubuser.activity.main.adapter.GithubAdapter
 import com.irfan.githubuser.databinding.FragmentFollowersBinding
+import com.irfan.githubuser.model.DetailUser
 import com.irfan.githubuser.util.Commons.hide
 import com.irfan.githubuser.util.Commons.show
 
-class FollowersFragment : Fragment() {
+class FollowersFragment : Fragment(), View.OnClickListener {
 
     private lateinit var binding: FragmentFollowersBinding
     private lateinit var followersViewModel: FollowersViewModel
+    private var username = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFollowersBinding.inflate(inflater, container, false)
@@ -26,13 +28,29 @@ class FollowersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val username = requireActivity().intent.getStringExtra(DetailActivity.EXTRA_GITHUB_USER)
-
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val data = requireActivity().intent.getParcelableExtra(DetailActivity.EXTRA_GITHUB_USER)?:DetailUser()
+        username = data.login
+        getData(username)
+        updateIfGetDataHasFinished()
+        binding.layoutError.btnRefresh.setOnClickListener(this)
+    }
 
-        getData(username?:"")
+    private fun getData(username: String) {
+        showShimmer()
+        followersViewModel.getListFollower(username).observe(viewLifecycleOwner,  {
+            val githubAdapter = GithubAdapter(it){}
+            hideShimmer()
+            if (it.isNullOrEmpty()) {
+                binding.layoutNoData.root.show()
+            } else {
+                binding.layoutNoData.root.hide()
+            }
+            binding.recyclerView.adapter = githubAdapter
+        })
+    }
 
+    private fun updateIfGetDataHasFinished() {
         followersViewModel.isSuccess.observe(viewLifecycleOwner, {isSuccess ->
             when(isSuccess) {
                 0 -> {
@@ -40,27 +58,6 @@ class FollowersFragment : Fragment() {
                     binding.shimmerLayout.hide()
                 }
             }
-        })
-
-        binding.layoutError.btnRefresh.setOnClickListener {
-            getData(username?:"")
-        }
-    }
-
-    private fun getData(username: String) {
-        showShimmer()
-        followersViewModel.getListFollower(username).observe(viewLifecycleOwner,  {
-            val githubAdapter = GithubAdapter(it){}
-
-            hideShimmer()
-
-            if (it.isNullOrEmpty()) {
-                binding.layoutNoData.root.show()
-            } else {
-                binding.layoutNoData.root.hide()
-            }
-
-            binding.recyclerView.adapter = githubAdapter
         })
     }
 
@@ -77,6 +74,12 @@ class FollowersFragment : Fragment() {
         binding.shimmerLayout.apply {
             hide()
             stopShimmer()
+        }
+    }
+
+    override fun onClick(view: View?) {
+        when(view) {
+            binding.layoutError.btnRefresh -> getData(username)
         }
     }
 }

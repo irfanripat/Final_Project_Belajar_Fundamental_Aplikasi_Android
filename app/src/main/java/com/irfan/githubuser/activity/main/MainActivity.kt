@@ -4,9 +4,12 @@ package com.irfan.githubuser.activity.main
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,56 +23,33 @@ import com.irfan.githubuser.util.Commons.hide
 import com.irfan.githubuser.util.Commons.show
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TextView.OnEditorActionListener, View.OnClickListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        initializeBinding()
 
         mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
-
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
+        updateIfGetDataHasFinished()
 
-        binding.inputUsername.setOnEditorActionListener { _, p1, _ ->
-            if (p1 == EditorInfo.IME_ACTION_DONE) {
-                if (binding.inputUsername.text.isNullOrEmpty()) {
-                    binding.inputUsername.error = resources.getString(R.string.type_something)
-                } else {
-                    showShimmer()
-                    mainViewModel.setSearchQuery(binding.inputUsername.text.toString())
-                }
-            }
-            true
-        }
+        binding.inputUsername.setOnEditorActionListener(this)
+        binding.layoutError.btnRefresh.setOnClickListener(this)
+    }
 
-        mainViewModel.isSuccess.observe(this, {isSucces->
-            when(isSucces) {
-                0 -> {
-                    binding.shimmerLayout.hide()
-                    binding.layoutError.root.show()
-                }
-                1 -> {
-                    binding.layoutError.root.hide()
-                    getData()
-                }
-            }
-        })
-
-        binding.layoutError.btnRefresh.setOnClickListener {
-            showShimmer()
-            mainViewModel.setSearchQuery(binding.inputUsername.text.toString())
-        }
+    private fun initializeBinding() {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     private fun getData() {
         mainViewModel.getSearchResult().observe(this, {
             val githubAdapter = GithubAdapter(it) { user ->
                 user as DetailUser
-                showDetailUser(user.login)
+                showDetailUser(user)
             }
 
             hideShimmer()
@@ -85,6 +65,20 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    private fun updateIfGetDataHasFinished() {
+        mainViewModel.isSuccess.observe(this, {isSucces->
+            when(isSucces) {
+                0 -> {
+                    binding.shimmerLayout.hide()
+                    binding.layoutError.root.show()
+                }
+                1 -> {
+                    binding.layoutError.root.hide()
+                    getData()
+                }
+            }
+        })
+    }
 
     private fun showShimmer() {
         binding.apply {
@@ -108,9 +102,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showDetailUser(username: String) {
+    private fun showDetailUser(user: DetailUser) {
         val intent = Intent(this@MainActivity, DetailActivity::class.java).apply {
-            putExtra(DetailActivity.EXTRA_GITHUB_USER, username)
+            putExtra(DetailActivity.EXTRA_GITHUB_USER, user)
         }
         startActivity(intent)
     }
@@ -147,5 +141,26 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding.inputUsername.hint = resources.getString(R.string.search)
+    }
+
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            if (binding.inputUsername.text.isNullOrEmpty()) {
+                binding.inputUsername.error = resources.getString(R.string.type_something)
+            } else {
+                showShimmer()
+                mainViewModel.setSearchQuery(binding.inputUsername.text.toString())
+            }
+        }
+        return true
+    }
+
+    override fun onClick(view: View?) {
+        when(view) {
+            binding.layoutError.btnRefresh -> {
+                showShimmer()
+                mainViewModel.setSearchQuery(binding.inputUsername.text.toString())
+            }
+        }
     }
 }

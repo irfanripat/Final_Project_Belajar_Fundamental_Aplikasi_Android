@@ -30,11 +30,12 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var detailViewModel: DetailViewModel
     private lateinit var tabLayout: TabLayout
-    lateinit var viewPager: ViewPager
-    private var isFavorite: Boolean = false
     private lateinit var dao : UserDao
     private lateinit var database : UserDatabase
-    private var user : DetailUser? = null
+    private lateinit var viewPager: ViewPager
+    private lateinit var user : DetailUser
+
+    private var isFavorite: Boolean = false
     private var username = ""
 
     companion object {
@@ -43,11 +44,11 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailBinding.inflate(layoutInflater)
-        binding.layoutError.textError.setTextColor(Color.WHITE)
-        setContentView(binding.root)
+        initializeBinding()
+
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
-        username = intent.getStringExtra(EXTRA_GITHUB_USER)?:""
+        user = intent.getParcelableExtra(EXTRA_GITHUB_USER)?:DetailUser()
+        username = user.login
 
         initDatabaseInstance()
         checkIfUserHasAddedToFavorite(username)
@@ -58,6 +59,12 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         binding.layoutError.btnRefresh.setOnClickListener(this)
         binding.btnFavorite.setOnClickListener(this)
+    }
+
+    private fun initializeBinding() {
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        binding.layoutError.textError.setTextColor(Color.WHITE)
+        setContentView(binding.root)
     }
 
     private fun getData(username: String) {
@@ -194,7 +201,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setUpTabLayout() {
-        val adapter = FragmentAdapter(supportFragmentManager, tabLayout.tabCount)
         tabLayout = binding.content.tabLayout
         viewPager = binding.content.viewPager
 
@@ -204,6 +210,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             tabGravity = TabLayout.GRAVITY_FILL
         }
 
+        val adapter = FragmentAdapter(supportFragmentManager, tabLayout.tabCount)
         viewPager.apply {
             this.adapter = adapter
             addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
@@ -219,14 +226,10 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setToFavorite() {
-        if (user != null) {
-            isFavorite = !isFavorite
-            when(isFavorite) {
-                true -> addToFavorite(user?: DetailUser())
-                else -> removeFromFavorite(user?: DetailUser())
-            }
-        } else {
-            this.showToast("Belum ada data bosku")
+        isFavorite = !isFavorite
+        when(isFavorite) {
+            true -> addToFavorite(user)
+            else -> removeFromFavorite(user)
         }
     }
 

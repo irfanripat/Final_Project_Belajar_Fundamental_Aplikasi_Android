@@ -1,11 +1,13 @@
 package com.irfan.githubuser.model
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import org.jetbrains.annotations.NonNls
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "users")
 data class DetailUser(
 
@@ -43,4 +45,4 @@ data class DetailUser(
 
     @ColumnInfo(name = "public_repos")
     val public_repos: Int? = -1,
-)
+): Parcelable
