@@ -26,4 +26,15 @@
     <string name="type_something">Please type something..</string>
     <string name="favorite_activity_title">Favorite User</string>
     <string name="no_data">No Favorite\'s Data</string>
+
+<!--    Settings-->
+    <string name="title_activity_settings">Settings</string>
+    <string name="reminder_title">Activate daily reminder</string>
+    <string name="set_time_title">Set reminder time</string>
+    <string name="daily_reminder">Daily Reminder</string>
+    <string name="change_lang_title">Change language</string>
+    <string name="on_time_set_toast">Daily reminder has enabled</string>
+    <string name="summary_reminder">Reminder will always shown everyday at 09:00</string>
+    <string name="on_alarm_cancel">Daily Reminder has disabled</string>
+    <string name="notification_content">Hey.. I miss you so much!</string>
 </resources>

@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory app:title="@string/daily_reminder"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreferenceCompat
+            app:key="reminder"
+            app:title="@string/reminder_title"
+            app:summary="@string/summary_reminder"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/language"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:key="change_language"
+            app:iconSpaceReserved="false"
+            app:title="@string/change_lang_title" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

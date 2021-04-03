@@ -3,7 +3,6 @@ package com.irfan.githubuser.activity.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -17,6 +16,7 @@ import com.irfan.githubuser.R
 import com.irfan.githubuser.activity.detail.DetailActivity
 import com.irfan.githubuser.activity.favorite.FavoriteActivity
 import com.irfan.githubuser.activity.main.adapter.GithubAdapter
+import com.irfan.githubuser.activity.settings.SettingsActivity
 import com.irfan.githubuser.databinding.ActivityMainBinding
 import com.irfan.githubuser.model.DetailUser
 import com.irfan.githubuser.util.Commons.hide
@@ -116,8 +116,8 @@ class MainActivity : AppCompatActivity(), TextView.OnEditorActionListener, View.
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.language_setting -> {
-                val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            R.id.settings -> {
+                val intent = Intent(this@MainActivity, SettingsActivity::class.java)
                 startActivity(intent)
             }
             R.id.favorite -> {

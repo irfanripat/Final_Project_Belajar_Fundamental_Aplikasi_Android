@@ -181,7 +181,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.language_setting) {
+        if (item.itemId == R.id.settings) {
             val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
             startActivity(intent)
         }
