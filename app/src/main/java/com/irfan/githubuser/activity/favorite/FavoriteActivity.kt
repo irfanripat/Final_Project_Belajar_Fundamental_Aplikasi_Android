@@ -3,13 +3,13 @@ package com.irfan.githubuser.activity.favorite
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.irfan.githubuser.R
 import com.irfan.githubuser.activity.detail.DetailActivity
 import com.irfan.githubuser.activity.main.adapter.GithubAdapter
+import com.irfan.githubuser.activity.settings.SettingsActivity
 import com.irfan.githubuser.databinding.ActivityFavoriteBinding
 import com.irfan.githubuser.db.UserDao
 import com.irfan.githubuser.db.UserDatabase
@@ -86,7 +86,7 @@ class FavoriteActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.settings -> {
-                val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                val intent = Intent(this@FavoriteActivity, SettingsActivity::class.java)
                 startActivity(intent)
             }
         }

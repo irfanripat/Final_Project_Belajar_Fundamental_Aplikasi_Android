@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -15,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayout
 import com.irfan.githubuser.R
 import com.irfan.githubuser.activity.detail.adapter.FragmentAdapter
+import com.irfan.githubuser.activity.settings.SettingsActivity
 import com.irfan.githubuser.databinding.ActivityDetailBinding
 import com.irfan.githubuser.db.UserDao
 import com.irfan.githubuser.db.UserDatabase
@@ -182,7 +182,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.settings) {
-            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            val intent = Intent(this@DetailActivity, SettingsActivity::class.java)
             startActivity(intent)
         }
         return super.onOptionsItemSelected(item)

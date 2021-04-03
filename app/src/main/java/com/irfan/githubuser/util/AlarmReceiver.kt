@@ -69,8 +69,8 @@ class AlarmReceiver : BroadcastReceiver() {
         intent.putExtra(TYPE_REPEATING, ID_REPEATING)
 
         val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, 21)
-        calendar.set(Calendar.MINUTE, 14)
+        calendar.set(Calendar.HOUR_OF_DAY, 9)
+        calendar.set(Calendar.MINUTE, 0)
         calendar.set(Calendar.SECOND, 0)
 
         val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0)
@@ -89,13 +89,6 @@ class AlarmReceiver : BroadcastReceiver() {
         alarmManager.cancel(pendingIntent)
 
         context.showToast(String.format(context.resources.getString(R.string.on_alarm_cancel)))
-    }
-
-    fun isAlarmSet(context: Context): Boolean {
-        val intent = Intent(context, AlarmReceiver::class.java)
-        val requestCode = ID_REPEATING
-
-        return PendingIntent.getBroadcast(context, requestCode, intent, PendingIntent.FLAG_NO_CREATE) != null
     }
 
 }
