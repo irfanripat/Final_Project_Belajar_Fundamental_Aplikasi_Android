@@ -1,5 +1,6 @@
 package com.irfan.githubuser.model
 
+import android.content.ContentValues
 import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
@@ -46,3 +47,19 @@ data class DetailUser(
     @ColumnInfo(name = "public_repos")
     val public_repos: Int? = -1,
 ): Parcelable
+
+fun fromContentValues(values: ContentValues?) : DetailUser{
+    return DetailUser(
+        values?.getAsString("avatar_url")?:"unknown",
+        values?.getAsString("company")?:"unknown",
+        values?.getAsString("email")?:"unknown",
+        values?.getAsInteger("followers")?:0,
+        values?.getAsInteger("following")?:0,
+        values?.getAsString("html_url")?:"unknown",
+        values?.getAsInteger("id")?:0,
+        values?.getAsString("location")?:"unknown",
+        values?.getAsString("login")?:"unknown",
+        values?.getAsString("name")?:"unknown",
+        values?.getAsInteger("public_repos")?:0,
+    )
+}

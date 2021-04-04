@@ -33,8 +33,5 @@ abstract class UserDatabase : RoomDatabase() {
             }
         }
 
-        fun destroyInstance() {
-            INSTANCE = null
-        }
     }
 }

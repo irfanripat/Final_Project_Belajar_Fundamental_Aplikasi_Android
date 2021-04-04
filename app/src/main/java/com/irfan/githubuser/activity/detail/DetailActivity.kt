@@ -24,6 +24,7 @@ import com.irfan.githubuser.util.Commons.hideViews
 import com.irfan.githubuser.util.Commons.show
 import com.irfan.githubuser.util.Commons.showToast
 import com.irfan.githubuser.util.Commons.showViews
+import com.irfan.githubuser.util.MappingHelper.mapToObject
 
 class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -152,13 +153,13 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun removeFromFavorite(user: DetailUser) {
-        dao.delete(user)
+        dao.delete(user.login)
         binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border)
         this.showToast(resources.getString(R.string.remove_from_favorite))
     }
 
     private fun checkIfUserHasAddedToFavorite(username: String) {
-        isFavorite = (dao.getUserByUsername(username) != null)
+        isFavorite = (dao.getUserByUsername(username).mapToObject() != null)
         when(isFavorite) {
             true -> binding.btnFavorite.setImageResource(R.drawable.ic_favorite_filled)
             false -> binding.btnFavorite.setImageResource(R.drawable.ic_favorite_border)

@@ -17,10 +17,17 @@
         android:theme="@style/Theme.GithubUser"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <provider
+            android:name=".provider.UserProvider"
+            android:authorities="com.irfan.githubuser.provider"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider" />
         <receiver
             android:name=".util.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
+
         <activity
             android:name=".activity.settings.SettingsActivity"
             android:label="@string/title_activity_settings"

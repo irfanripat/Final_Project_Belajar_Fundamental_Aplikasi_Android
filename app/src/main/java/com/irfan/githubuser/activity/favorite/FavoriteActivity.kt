@@ -16,6 +16,7 @@ import com.irfan.githubuser.db.UserDatabase
 import com.irfan.githubuser.model.DetailUser
 import com.irfan.githubuser.util.Commons.hide
 import com.irfan.githubuser.util.Commons.show
+import com.irfan.githubuser.util.MappingHelper
 
 class FavoriteActivity : AppCompatActivity() {
 
@@ -63,7 +64,7 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun getListFavoriteUser() {
-        user = dao.getAllUser()
+        user = MappingHelper.mapCursorToArrayList(dao.getAllUser())
     }
 
     private fun showDetailUser(user: DetailUser) {
