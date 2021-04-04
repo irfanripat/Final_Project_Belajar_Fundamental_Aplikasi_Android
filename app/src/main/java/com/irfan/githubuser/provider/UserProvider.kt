@@ -14,7 +14,7 @@ import java.lang.UnsupportedOperationException
 class UserProvider : ContentProvider() {
 
     companion object {
-        private const val AUTHORITY = "com.irfan.githubuser.provider"
+        private const val AUTHORITY = "com.irfan.githubuser"
         private const val SCHEME = "content"
         private const val TABLE_NAME = "users"
 
