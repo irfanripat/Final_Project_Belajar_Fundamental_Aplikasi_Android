@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +27,7 @@ import com.irfan.consumerapp.`package`.DatabaseContract.UserColumns.Companion.LO
 import com.irfan.consumerapp.`package`.DatabaseContract.UserColumns.Companion.NAME
 import com.irfan.consumerapp.`package`.DatabaseContract.UserColumns.Companion.PUBLIC_REPOS
 import com.irfan.consumerapp.activity.detail.adapter.FragmentAdapter
+import com.irfan.consumerapp.activity.settings.SettingsActivity
 import com.irfan.consumerapp.databinding.ActivityDetailBinding
 import com.irfan.consumerapp.model.DetailUser
 import com.irfan.consumerapp.util.Commons.hide
@@ -206,18 +209,18 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         return super.onSupportNavigateUp()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.main_menu, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == R.id.settings) {
-//            val intent = Intent(this@DetailActivity, SettingsActivity::class.java)
-//            startActivity(intent)
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.settings) {
+            val intent = Intent(this@DetailActivity, SettingsActivity::class.java)
+            startActivity(intent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private fun setUpActionBar(username: String) {
         setSupportActionBar(binding.toolbar)
