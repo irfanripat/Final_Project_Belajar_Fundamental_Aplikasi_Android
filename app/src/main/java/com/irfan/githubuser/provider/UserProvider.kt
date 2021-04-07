@@ -9,7 +9,6 @@ import android.net.Uri
 import com.irfan.githubuser.db.UserDao
 import com.irfan.githubuser.db.UserDatabase
 import com.irfan.githubuser.model.fromContentValues
-import java.lang.UnsupportedOperationException
 
 class UserProvider : ContentProvider() {
 
@@ -33,7 +32,7 @@ class UserProvider : ContentProvider() {
 
         init {
             uriMatcher.addURI(AUTHORITY, TABLE_NAME, USER)
-            uriMatcher.addURI(AUTHORITY, "$TABLE_NAME/#", USER_USERNAME)
+            uriMatcher.addURI(AUTHORITY, "$TABLE_NAME/*", USER_USERNAME)
         }
     }
 
@@ -52,7 +51,11 @@ class UserProvider : ContentProvider() {
     }
 
     override fun getType(uri: Uri): String? {
-        return null
+        return when (uriMatcher.match(uri)) {
+            USER -> USER.toString()
+            USER_USERNAME -> USER_USERNAME.toString()
+            else -> null
+        }
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
