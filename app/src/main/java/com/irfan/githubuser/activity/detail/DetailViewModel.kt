@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.irfan.githubuser.api.ApiInterface
 import com.irfan.githubuser.api.RetrofitClient
-import com.irfan.githubuser.db.UserDao
 import com.irfan.githubuser.model.DetailUser
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

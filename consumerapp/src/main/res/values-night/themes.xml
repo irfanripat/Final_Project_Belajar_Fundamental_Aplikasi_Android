@@ -16,8 +16,6 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Theme.SplashScreen" parent="Theme.GithubUser"/>
-
     <style name="Theme.MainActivity" parent="Theme.MaterialComponents.Light.DarkActionBar"/>
 
     <style name="Theme.DetailActivity" parent="Theme.GithubUser">

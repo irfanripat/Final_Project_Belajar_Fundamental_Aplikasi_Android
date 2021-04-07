@@ -45,7 +45,4 @@
     <item name="android:drawablePadding">15dp</item>
     </style>
 
-    <style name="dateTimePicker" parent="ThemeOverlay.MaterialComponents.Dialog">
-        <item name="colorAccent">@color/font_black</item>
-    </style>
 </resources>

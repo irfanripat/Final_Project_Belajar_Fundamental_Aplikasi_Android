@@ -34,7 +34,7 @@ class FollowersFragment : Fragment(), View.OnClickListener {
         username = data.login
         getData(username)
         updateIfGetDataHasFinished()
-//        binding.layoutError.btnRefresh.setOnClickListener(this)
+        binding.layoutError.btnRefresh.setOnClickListener(this)
     }
 
     private fun getData(username: String) {
@@ -55,7 +55,7 @@ class FollowersFragment : Fragment(), View.OnClickListener {
         followersViewModel.isSuccess.observe(viewLifecycleOwner, {isSuccess ->
             when(isSuccess) {
                 0 -> {
-//                    binding.layoutError.root.show()
+                    binding.layoutError.root.show()
                     binding.shimmerLayout.hide()
                 }
             }
@@ -63,7 +63,7 @@ class FollowersFragment : Fragment(), View.OnClickListener {
     }
 
     private fun showShimmer() {
-//        binding.layoutError.root.hide()
+        binding.layoutError.root.hide()
         binding.layoutNoData.root.hide()
         binding.shimmerLayout.apply {
             startShimmer()
@@ -80,7 +80,7 @@ class FollowersFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(view: View?) {
         when(view) {
-//            binding.layoutError.btnRefresh -> getData(username)
+            binding.layoutError.btnRefresh -> getData(username)
         }
     }
 }

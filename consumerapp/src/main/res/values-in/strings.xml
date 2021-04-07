@@ -10,10 +10,7 @@
     <string name="app_icon">Logo Aplikasi</string>
     <string name="background">Gambar Latar</string>
     <string name="avatar">Avatar</string>
-    <string name="icon_followers">Ikon Pengikut</string>
     <string name="unknown">Tidak Diketahui</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="search">Cari</string>
     <string name="failed_to_getting_data">Gagal Mendapatkan Data</string>
     <string name="refresh">Segarkan</string>
     <string name="error_get_data">Gagal Mendapatkan Data</string>
@@ -21,20 +18,10 @@
     <string name="button_favorite">Tombol Favorit</string>
     <string name="add_to_favorite">Ditambahkan kedalam favorit</string>
     <string name="remove_from_favorite">Dihapus dari favorite</string>
-    <string name="favorite">Favorit</string>
     <string name="language">Bahasa</string>
-    <string name="type_something">Silahkan ketik sesuatu..</string>
-    <string name="favorite_activity_title">User Favorit</string>
     <string name="no_data">Belum Ada Favorit</string>
 
     <!--    Settings-->
     <string name="title_activity_settings">Pengaturan</string>
-    <string name="reminder_title">Aktifkan pengingat harian</string>
-    <string name="set_time_title">Atur waktu pengingat</string>
-    <string name="daily_reminder">Pengingat Harian</string>
     <string name="change_lang_title">Ganti Bahasa</string>
-    <string name="on_time_set_toast">Pengingat harian telah diaktifkan</string>
-    <string name="summary_reminder">Pengingat akan selalu ditampilkan setiap hari pada pukul 09:00</string>
-    <string name="on_alarm_cancel">Daily Reminder telah dimatikan</string>
-    <string name="notification_content">Hey.. Aku sangat merindukanmu!</string>
 </resources>

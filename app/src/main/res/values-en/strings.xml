@@ -10,9 +10,7 @@
     <string name="app_icon">App Icon</string>
     <string name="background">Background</string>
     <string name="avatar">Avatar</string>
-    <string name="icon_followers">Icon Followers</string>
     <string name="unknown">Unknown</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Search</string>
     <string name="failed_to_getting_data">Failed to getting data</string>
     <string name="refresh">Refresh</string>
@@ -30,7 +28,6 @@
 <!--    Settings-->
     <string name="title_activity_settings">Settings</string>
     <string name="reminder_title">Activate daily reminder</string>
-    <string name="set_time_title">Set reminder time</string>
     <string name="daily_reminder">Daily Reminder</string>
     <string name="change_lang_title">Change language</string>
     <string name="on_time_set_toast">Daily reminder has enabled</string>

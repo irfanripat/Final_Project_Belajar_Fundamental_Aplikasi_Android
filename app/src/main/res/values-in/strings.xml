@@ -10,9 +10,7 @@
     <string name="app_icon">Logo Aplikasi</string>
     <string name="background">Gambar Latar</string>
     <string name="avatar">Avatar</string>
-    <string name="icon_followers">Ikon Pengikut</string>
     <string name="unknown">Tidak Diketahui</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search">Cari</string>
     <string name="failed_to_getting_data">Gagal Mendapatkan Data</string>
     <string name="refresh">Segarkan</string>
@@ -30,7 +28,6 @@
 <!--    Settings-->
     <string name="title_activity_settings">Pengaturan</string>
     <string name="reminder_title">Aktifkan pengingat harian</string>
-    <string name="set_time_title">Atur waktu pengingat</string>
     <string name="daily_reminder">Pengingat Harian</string>
     <string name="change_lang_title">Ganti Bahasa</string>
     <string name="on_time_set_toast">Pengingat harian telah diaktifkan</string>
