@@ -34,4 +34,6 @@
     <string name="summary_reminder">Reminder will always shown everyday at 09:00</string>
     <string name="on_alarm_cancel">Daily Reminder has disabled</string>
     <string name="notification_content">Hey.. I miss you so much!</string>
+    <string name="appwidget_text">Favorite User</string>
+    <string name="empty_text">No Favorite User</string>
 </resources>

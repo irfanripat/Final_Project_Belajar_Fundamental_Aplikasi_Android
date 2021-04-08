@@ -34,4 +34,6 @@
     <string name="summary_reminder">Pengingat akan selalu ditampilkan setiap hari pada pukul 09:00</string>
     <string name="on_alarm_cancel">Daily Reminder telah dimatikan</string>
     <string name="notification_content">Hey.. Aku sangat merindukanmu!</string>
+    <string name="appwidget_text">User Favorit</string>
+    <string name="empty_text">Tidak Ada User Favorit</string>
 </resources>

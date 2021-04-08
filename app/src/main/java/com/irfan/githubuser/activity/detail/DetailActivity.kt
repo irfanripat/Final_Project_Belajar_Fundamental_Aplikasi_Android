@@ -3,11 +3,11 @@ package com.irfan.githubuser.activity.detail
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
@@ -46,8 +46,13 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeBinding()
-
         detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(DetailViewModel::class.java)
+        binding.layoutError.btnRefresh.setOnClickListener(this)
+        binding.btnFavorite.setOnClickListener(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
         user = intent.getParcelableExtra(EXTRA_GITHUB_USER)?:DetailUser()
         username = user.login
 
@@ -57,9 +62,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         setUpTabLayout()
         getData(username)
         observeIfGetDataHasFinished()
-
-        binding.layoutError.btnRefresh.setOnClickListener(this)
-        binding.btnFavorite.setOnClickListener(this)
     }
 
     private fun initializeBinding() {

@@ -21,7 +21,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
-    <style name="Theme.MainActivity" parent="Theme.MaterialComponents.Light.DarkActionBar"/>
+    <style name="Theme.MainActivity" parent="Theme.MaterialComponents.Light.DarkActionBar" />
 
     <style name="Theme.DetailActivity" parent="Theme.GithubUser">
         <!-- Customize color of navigation drawer icon and back arrow -->
@@ -39,10 +39,15 @@
     </style>
 
     <style name="TextInputEditTextTheme">
-    <item name="android:maxLines">1</item>
-    <item name="android:textColor">@color/font_black</item>
-    <item name="android:textSize">14sp</item>
-    <item name="android:drawablePadding">15dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textColor">@color/font_black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:drawablePadding">15dp</item>
+    </style>
+
+    <style name="ThemeOverlay.GithubUser.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/light_blue_600</item>
+        <item name="appWidgetTextColor">@color/light_blue_50</item>
     </style>
 
 </resources>

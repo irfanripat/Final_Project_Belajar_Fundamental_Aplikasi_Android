@@ -16,12 +16,17 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Theme.SplashScreen" parent="Theme.GithubUser"/>
+    <style name="Theme.SplashScreen" parent="Theme.GithubUser" />
 
-    <style name="Theme.MainActivity" parent="Theme.MaterialComponents.Light.DarkActionBar"/>
+    <style name="Theme.MainActivity" parent="Theme.MaterialComponents.Light.DarkActionBar" />
 
     <style name="Theme.DetailActivity" parent="Theme.GithubUser">
         <!-- Customize color of navigation drawer icon and back arrow -->
         <item name="colorControlNormal">@color/white</item>
+    </style>
+
+    <style name="ThemeOverlay.GithubUser.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">@color/light_blue_900</item>
+        <item name="appWidgetTextColor">@color/light_blue_200</item>
     </style>
 </resources>

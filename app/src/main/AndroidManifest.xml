@@ -7,8 +7,12 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <permission android:name="com.irfan.githubuser.READ_DATABASE" android:protectionLevel="normal"/>
-    <permission android:name="com.irfan.githubuser.WRITE_DATABASE" android:protectionLevel="normal"/>
+    <permission
+        android:name="com.irfan.githubuser.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.irfan.githubuser.WRITE_DATABASE"
+        android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +24,22 @@
         android:theme="@style/Theme.GithubUser"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <service
+            android:name=".widget.StackWidgetService"
+            android:enabled="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS"
+            android:exported="true"/>
+
+        <receiver android:name=".widget.FavoriteUserWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/favorite_user_widget_info" />
+        </receiver>
+
         <provider
             android:name=".provider.UserProvider"
             android:authorities="com.irfan.githubuser"
@@ -28,6 +48,7 @@
             android:readPermission="com.irfan.githubuser.READ_DATABASE"
             android:writePermission="com.irfan.githubuser.WRITE_DATABASE"
             tools:ignore="ExportedContentProvider" />
+
         <receiver
             android:name=".util.AlarmReceiver"
             android:enabled="true"
